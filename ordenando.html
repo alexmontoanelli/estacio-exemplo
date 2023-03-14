@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Ordenando</title>
+    <script src="ordenando.js"></script>
+</head>
+<body>
+    <main class="container-fluid">
+        <h3>Ordenando Valores</h3>
+        <form class="form-group col-4">
+            <div class="form-group row">
+                <label for="valor">Valor</label>
+                <input type="number" name="valor" id="valor" class="form-control">
+                <input type="button" value="Adicionar" onclick="add()" class="btn btn-primary btn-sm mt-2">
+            </div>
+            <hr class="form-group row">
+            <div class="form-group row">
+                <select name="tipo" id="tipo" class="form-control">
+                    <option value="bubble" selected>Bubble Sort</option>
+                    <option value="selection">Selection Sort</option>
+                    <option value="quick">Quick Sort</option>
+                </select>
+                <input type="button" value="Ordenar" onclick="ordenar()" class="btn btn-primary btn-sm mt-2">
+                <input type="button" value="Misturar" onclick="misturar()" class="btn btn-primary btn-sm mt-2 ml-2">
+            </div>
+            <hr class="form-group row">
+            <ul id="valores"></ul>
+        </form>
+    </main>
+
+    <script>
+        function add() {
+            let valor = document.getElementById("valor");
+            let lista = document.getElementById("valores");
+            let node = document.createElement("li");
+            let no_texto = document.createTextNode(valor.value);
+            node.appendChild(no_texto);
+            lista.appendChild(node);
+            valor.value = "";
+            
+        }
+
+        function ordenar() {
+            let lista_valores = document.getElementById("valores");
+            let lista_selecao = document.getElementById("tipo");
+            let item_lista = lista_valores.children;
+            let vetor = [];
+            for(let valor = 0; valor < item_lista.length; valor++) {
+                vetor.push(parseInt(item_lista[valor].innerHTML));
+            }
+            console.log(vetor);
+            switch (lista_selecao.selectedIndex) {
+                case 0:
+                    console.log(vetor);
+                    const bubbleVetor = bubble_sort(vetor);
+                    console.log(bubbleVetor);
+                    for(let valor = 0; valor < item_lista.length; valor++) {
+                        item_lista[valor].innerHTML = `${bubbleVetor[valor]}`;
+                    }
+                    break;
+                case 1:
+                    //selection_sort
+                    const selectionVetor = selection_sort(vetor);
+                    console.log(selectionVetor);
+                    for(let valor = 0; valor < item_lista.length; valor++) {
+                        item_lista[valor].innerHTML = `${selectionVetor[valor]}`;
+                    }
+                    break;
+                case 2:
+                    //quick_sort
+                    const quickVetor = quick_sort(vetor, 0, vetor.length - 1);
+                    console.log(quickVetor);
+                    for(let valor = 0; valor < item_lista.length; valor++) {
+                        item_lista[valor].innerHTML = `${quickVetor[valor]}`;
+                    }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+
+        function misturar() {
+            let lista_valores = document.getElementById("valores");
+            let item_lista = lista_valores.children;
+            let vetor = [];
+            for(let valor = 0; valor < item_lista.length; valor++) {
+                vetor.push(parseInt(item_lista[valor].innerHTML));
+            }
+            const newVetor = shuffle(vetor, vetor.length)
+            console.log(newVetor);
+            for(let valor = 0; valor < item_lista.length; valor++) {
+                item_lista[valor].innerHTML = `${newVetor[valor]}`;
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
